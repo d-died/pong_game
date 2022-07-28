@@ -1,30 +1,50 @@
 from turtle import Turtle
 
-LEFT_PADDLE_COORDS = [(-370, 20), (-370, 0), (-370, -20)]
-RIGHT_PADDLE_COORDS = [(370, 20), (370, 0), (370, -20)]
-
+PADDLE_COORDS = [(-350, 0), (350, 0)]
 
 class Paddle:
     def __init__(self):
-        self.left_paddle = []
-        self.right_paddle = []
-        self.make_paddle(paddle=self.left_paddle, positions=LEFT_PADDLE_COORDS)
-        self.make_paddle(paddle=self.right_paddle, positions=RIGHT_PADDLE_COORDS)
+        self.left_paddle = None
+        self.right_paddle = None
+        self.make_paddle()
 
 
-    def make_paddle(self, paddle, positions):
-        for position in positions:
-            paddle_piece = Turtle("square")
-            paddle_piece.color("white")
-            paddle_piece.penup()
-            paddle_piece.goto(position)
-            paddle.append(paddle_piece)
-        # print(paddle)
+    def make_paddle(self):
+        for i in range(len(PADDLE_COORDS)):
+            paddle = Turtle("square")
+            paddle.resizemode("user")
+            paddle.color("white")
+            paddle.setheading(90)
+            paddle.shapesize(stretch_len=7.5)
+            paddle.penup()
+            paddle.goto(PADDLE_COORDS[i])
+            print(paddle)
+            if PADDLE_COORDS[i] == (-350, 0):
+                self.left_paddle = paddle
+            else:
+                self.right_paddle = paddle
 
-    def up(self, paddle_side):
-        for i in range(3):
-            square = paddle_side[i]
-            print(f"Old y: {square.ycor()}")
-            new_y = square.ycor() + 10
-            paddle_side[i].goto(square.xcor(), new_y)
-            print(f"New y: {square.ycor()}")
+
+    def left_up(self):
+        old_y = self.left_paddle.ycor()
+        if old_y <= 200:
+            new_y = old_y + 20
+            self.left_paddle.sety(new_y)
+
+    def left_down(self):
+        old_y = self.left_paddle.ycor()
+        if old_y >= -200:
+            new_y = old_y - 20
+            self.left_paddle.sety(new_y)
+
+    def right_up(self):
+        old_y = self.right_paddle.ycor()
+        if old_y <= 200:
+            new_y = old_y + 20
+            self.right_paddle.sety(new_y)
+
+    def right_down(self):
+        old_y = self.right_paddle.ycor()
+        if old_y >= -200:
+            new_y = old_y - 20
+            self.right_paddle.sety(new_y)
